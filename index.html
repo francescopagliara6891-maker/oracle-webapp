@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Oracle Search</title>
+    <script src="https://telegram.org/js/telegram-web-app.js"></script>
+    <style>
+        :root {
+            --bg-color: var(--tg-theme-bg-color, #212121);
+            --text-color: var(--tg-theme-text-color, #ffffff);
+            --card-bg: var(--tg-theme-secondary-bg-color, #333333);
+            --accent: var(--tg-theme-button-color, #3390ec);
+            --hint: var(--tg-theme-hint-color, #aaaaaa);
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background-color: var(--bg-color); 
+            color: var(--text-color);
+            margin: 0;
+            padding: 0;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            height: 100vh; /* Occupa tutto lo schermo */
+        }
+
+        .container {
+            width: 85%;
+            max-width: 400px;
+            text-align: center;
+        }
+
+        /* Icona decorativa minimal */
+        .icon-oracle {
+            font-size: 60px;
+            margin-bottom: 20px;
+            filter: drop-shadow(0 0 10px rgba(51, 144, 236, 0.4));
+        }
+
+        h2 {
+            margin: 0 0 30px 0;
+            font-weight: 600;
+            letter-spacing: 1px;
+        }
+
+        /* Input Field Design */
+        .input-group {
+            position: relative;
+            width: 100%;
+        }
+
+        input[type="text"] {
+            width: 100%;
+            padding: 16px 20px;
+            border: 2px solid #444;
+            border-radius: 30px; /* Arrotondato moderno */
+            background-color: var(--card-bg);
+            color: var(--text-color);
+            font-size: 18px;
+            text-align: center;
+            box-sizing: border-box;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+        }
+
+        input[type="text"]:focus {
+            border-color: var(--accent);
+            outline: none;
+            box-shadow: 0 0 20px rgba(51, 144, 236, 0.2);
+            transform: scale(1.02);
+        }
+
+        input::placeholder {
+            color: var(--hint);
+            opacity: 0.7;
+        }
+
+        .info-text {
+            margin-top: 25px;
+            font-size: 13px;
+            color: var(--hint);
+            line-height: 1.5;
+        }
+
+    </style>
+</head>
+<body>
+
+    <div class="container">
+        <div class="icon-oracle">👁️‍🗨️</div>
+        
+        <h2>Oracle Search</h2>
+
+        <div class="input-group">
+            <input type="text" id="searchInput" placeholder="Cerca nel database..." autocomplete="off">
+        </div>
+
+        <p class="info-text">
+            Digita la parola chiave e premi il tasto blu in basso per avviare la ricerca.
+        </p>
+    </div>
+
+    <script>
+        let tg = window.Telegram.WebApp;
+        tg.expand(); // Espande a tutto schermo
+
+        // Configurazione bottone Telegram (Nascosto finché non scrivi)
+        tg.MainButton.text = "🔍 AVVIA RICERCA";
+        tg.MainButton.color = "#3390ec";
+        tg.MainButton.textColor = "#ffffff";
+        
+        let input = document.getElementById("searchInput");
+
+        // Funzione di controllo
+        input.addEventListener('input', function() {
+            if (input.value.trim().length > 0) {
+                tg.MainButton.show();
+            } else {
+                tg.MainButton.hide();
+            }
+        });
+
+        // Invio dati al Bot quando si preme il tasto Blu
+        Telegram.WebApp.onEvent('mainButtonClicked', function(){
+            let data = {
+                query: input.value.trim() // Inviamo solo la query
+            };
+            tg.sendData(JSON.stringify(data)); 
+        });
+
+    </script>
+</body>
+</html>
