@@ -16,85 +16,80 @@
             justify-content: center;
             height: 100vh;
             color: white;
-            /* Sfondo Gradiente Tecnologico Blu */
-            background: linear-gradient(135deg, #1a2980 0%, #26d0ce 100%);
+            /* Sfondo Gradiente Istituzionale */
+            background: linear-gradient(135deg, #003366 0%, #0055a5 100%);
         }
 
         .container {
             width: 85%;
             max-width: 400px;
             text-align: center;
-            background: rgba(0, 0, 0, 0.3); /* Effetto vetro scuro */
+            background: rgba(255, 255, 255, 0.1); /* Vetro leggero */
             padding: 30px;
             border-radius: 20px;
             backdrop-filter: blur(10px);
-            box-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.37);
-            border: 1px solid rgba(255, 255, 255, 0.18);
+            box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.3);
+            border: 1px solid rgba(255, 255, 255, 0.1);
         }
 
-        /* Titolo Principale */
+        /* LOGO LUM */
+        .logo-lum {
+            width: 140px; /* Dimensione Logo */
+            margin-bottom: 20px;
+            filter: drop-shadow(0 0 10px rgba(255,255,255,0.2));
+        }
+
+        /* Titolo Tuo */
         h2 {
             margin: 10px 0 5px 0;
             font-weight: 700;
             letter-spacing: 1px;
-            font-size: 26px;
+            font-size: 24px;
             text-transform: uppercase;
         }
         
-        /* Sottotitolo descrittivo */
+        /* Sottotitolo */
         .subtitle {
-            font-size: 12px;
+            font-size: 11px;
             text-transform: uppercase;
             letter-spacing: 2px;
-            margin-bottom: 25px;
+            margin-bottom: 30px;
             opacity: 0.8;
-            color: #aaddff;
-            font-weight: 500;
+            color: #dbeaff;
         }
 
-        /* Icona Cartella */
-        .icon-main {
-            font-size: 60px;
-            margin-bottom: 15px;
-            filter: drop-shadow(0 0 15px rgba(255,255,255,0.4));
-        }
-
-        /* Barra di Ricerca */
+        /* Input Ricerca */
         input[type="text"] {
             width: 100%;
             padding: 15px;
             border: none;
             border-radius: 12px;
             background-color: rgba(255, 255, 255, 0.95);
-            color: #1a2980;
+            color: #003366;
             font-weight: bold;
             font-size: 16px;
             text-align: center;
             box-sizing: border-box;
             outline: none;
             box-shadow: 0 4px 6px rgba(0,0,0,0.1);
-            transition: all 0.3s ease;
-        }
-
-        input[type="text"]:focus {
-            transform: scale(1.05);
-            box-shadow: 0 0 20px rgba(255, 255, 255, 0.5);
         }
 
         /* Footer con la tua Firma */
         .footer-credits {
-            margin-top: 35px;
-            font-size: 11px;
-            color: rgba(255, 255, 255, 0.6);
-            border-top: 1px solid rgba(255, 255, 255, 0.2);
+            margin-top: 40px;
+            font-size: 10px;
+            color: rgba(255, 255, 255, 0.5);
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
             padding-top: 15px;
             width: 100%;
-            line-height: 1.4;
+            line-height: 1.5;
         }
         
         .footer-credits b {
             color: #ffffff;
             font-size: 12px;
+            display: block;
+            margin-top: 2px;
         }
 
     </style>
@@ -102,15 +97,15 @@
 <body>
 
     <div class="container">
-        <div class="icon-main">📂</div> 
+        <img src="https://www.lum.it/wp-content/themes/lum/assets/images/logo-lum-white.svg" alt="LUM Logo" class="logo-lum">
         
         <h2>FP ARCHIVE</h2>
-        <div class="subtitle">Digital Management System</div>
+        <div class="subtitle">Master in Data Management</div>
         
         <input type="text" id="searchInput" placeholder="Cerca documento..." autocomplete="off">
         
         <div class="footer-credits">
-            Created & Managed by<br>
+            Designed & Developed by<br>
             <b>Francesco Pagliara</b>
         </div>
     </div>
@@ -119,14 +114,12 @@
         let tg = window.Telegram.WebApp;
         tg.expand(); 
 
-        // Configurazione Bottone Telegram
-        tg.MainButton.text = "🔍 CERCA NELL'ARCHIVIO";
-        tg.MainButton.color = "#ffffff"; // Bianco
-        tg.MainButton.textColor = "#1a2980"; // Blu scuro per contrasto
+        tg.MainButton.text = "🔍 CERCA";
+        tg.MainButton.color = "#ffffff"; 
+        tg.MainButton.textColor = "#003366"; 
         
         let input = document.getElementById("searchInput");
 
-        // Mostra il bottone solo quando si scrive
         input.addEventListener('input', function() {
             if (input.value.trim().length > 0) {
                 tg.MainButton.show();
@@ -135,7 +128,6 @@
             }
         });
 
-        // Invio dati al Bot
         Telegram.WebApp.onEvent('mainButtonClicked', function(){
             let data = { query: input.value.trim() };
             tg.sendData(JSON.stringify(data)); 
